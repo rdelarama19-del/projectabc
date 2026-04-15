@@ -8,7 +8,6 @@ on:
         required: true
         default: 'v1.0.0'
 
-# CRITICAL: Gives GitHub permission to create a Release in your repo
 permissions:
   contents: write 
 
@@ -50,3 +49,6 @@ jobs:
         tag_name: ${{ inputs.version_tag }}-${{ env.DATE_STAMP }}
         name: Release ${{ inputs.version_tag }}-${{ env.DATE_STAMP }}
         files: app-release.zip
+
+    - name: Display Release Tag
+      run: echo "✅ Deployment completed. Release tag: ${{ inputs.version_tag }}-${{ env.DATE_STAMP }}"
