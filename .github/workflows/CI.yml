@@ -1,4 +1,4 @@
-name: CI - Build & Release (.NET 9)
+name: CI - Build & Release (.NET 9)s
 
 on:
   workflow_dispatch:
