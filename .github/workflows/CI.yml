@@ -1,12 +1,8 @@
+
 name: 1. CI - Build & Release (.NET 9)
 
 on:
   workflow_dispatch:
-    inputs:
-      version_tag:
-        description: 'Release Version (e.g., v1.0.0)'
-        required: true
-        default: 'v1.0.0'
 
 permissions:
   contents: write 
@@ -18,6 +14,8 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
 
     - name: Setup .NET 9 environment
       uses: actions/setup-dotnet@v4
@@ -27,7 +25,7 @@ jobs:
     - name: Setup Node.js (for React)
       uses: actions/setup-node@v4
       with:
-        node-version: '24'
+        node-version: '20'
 
     - name: Restore, Build, and Publish
       run: |
@@ -40,15 +38,13 @@ jobs:
         cd ./publish
         zip -r ../app-release.zip .
 
-    - name: Generate Unique Datestamp (yyyyMMdd)
-      run: echo "DATE_STAMP=$(date +'%Y%m%d')" >> $GITHUB_ENV
+    - name: Generate Automatic Release Tag
+      run: |
+        echo "DATE_STAMP=$(date +'%Y%m%d')" >> $GITHUB_ENV
+        echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+        echo "RELEASE_TAG=release-${DATE_STAMP}-${SHORT_SHA}" >> $GITHUB_ENV
 
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v2
       with:
-        tag_name: ${{ inputs.version_tag }}-${{ env.DATE_STAMP }}
-        name: Release ${{ inputs.version_tag }}-${{ env.DATE_STAMP }}
-        files: app-release.zip
-
-    - name: Display Release Tag
-      run: echo "✅ Deployment completed. Release tag: ${{ github.event.inputs.version_tag }}-${{ env.DATE_STAMP }}"
+        tag_name: ${{ env.RELEAS
