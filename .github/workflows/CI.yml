@@ -50,5 +50,3 @@ jobs:
         name: Release ${{ inputs.version_tag }}-${{ env.DATE_STAMP }}
         files: app-release.zip
 
-    - name: Display Release Tag
-      run: echo " Deployment completed. Release tag: ${{ inputs.version_tag }}-${{ env.DATE_STAMP }}"
