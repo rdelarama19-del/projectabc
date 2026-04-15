@@ -1,0 +1,52 @@
+name: 1. CI - Build & Release (.NET 9)
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_tag:
+        description: 'Release Version (e.g., v1.0.0)'
+        required: true
+        default: 'v1.0.0'
+
+# CRITICAL: Gives GitHub permission to create a Release in your repo
+permissions:
+  contents: write 
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET 9 environment
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '9.0.x'
+        
+    - name: Setup Node.js (for React)
+      uses: actions/setup-node@v4
+      with:
+        node-version: '24'
+
+    - name: Restore, Build, and Publish
+      run: |
+        dotnet restore
+        dotnet build -c Release --no-restore
+        dotnet publish -c Release -o ./publish --no-build
+
+    - name: Zip Publish Folder
+      run: |
+        cd ./publish
+        zip -r ../app-release.zip .
+
+    - name: Generate Unique Datestamp (yyyyMMdd)
+      run: echo "DATE_STAMP=$(date +'%Y%m%d')" >> $GITHUB_ENV
+
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: ${{ inputs.version_tag }}-${{ env.DATE_STAMP }}
+        name: Release ${{ inputs.version_tag }}-${{ env.DATE_STAMP }}
+        files: app-release.zip

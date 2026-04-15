@@ -1,0 +1,43 @@
+name: 2. CD - Deploy Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_env:
+        description: 'Select Target Environment'
+        required: true
+        default: 'QAT'
+        type: choice
+        options:
+          - QAT
+          - UAT
+          - Production
+      version_tag:
+        description: 'Exact Release Tag (e.g., v1.0.0-20260413)'
+        required: true
+
+jobs:
+  deploy:
+    name: Deploy ${{ inputs.version_tag }} to ${{ inputs.target_env }}
+    runs-on: ubuntu-latest
+    
+    # Routes to the correct GitHub Environment vault (QAT, UAT, Production)
+    environment: 
+      name: ${{ inputs.target_env }}
+
+    steps:
+      - name: Download Release Zip
+        run: gh release download ${{ inputs.version_tag }} -p "app-release.zip" --repo ${{ github.repository }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Unzip Artifact
+        run: unzip app-release.zip -d ./publish
+
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v3
+        with:
+          # Pulls the plain-text name (Variables) and hidden password (Secrets)
+          app-name: ${{ vars.AZURE_APP_NAME }} 
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: ./publish
