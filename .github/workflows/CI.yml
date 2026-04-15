@@ -37,11 +37,14 @@ jobs:
         cd ./publish
         zip -r ../app-release.zip .
 
-    - name: Generate Automatic Release Tag
-      run: |
-        echo "DATE_STAMP=$(date +'%Y%m%d')" >> $GITHUB_ENV
-        echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
-        echo "RELEASE_TAG=release-${DATE_STAMP}-${SHORT_SHA}" >> $GITHUB_ENV
+
+    - name: Generate New Release Tag
+     run: |
+     	echo "DATE_STAMP=$(date +'%Y%m%d')" >> $GITHUB_ENV
+    	echo "TIME_STAMP=$(date +'%H%M%S')" >> $GITHUB_ENV
+    	echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+    	echo "RELEASE_TAG=release-${DATE_STAMP}-${TIME_STAMP}-${SHORT_SHA}" >> $GITHUB_ENV
+
 
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v2
