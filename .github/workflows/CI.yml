@@ -1,4 +1,9 @@
-name: CI - Build & Release (.NET 9)name: CI - Build & Release:
+name: 1. CI - Build & Release (.NET 9)
+
+on:
+  workflow_dispatch:
+
+permissions:
   contents: write
 
 jobs:
@@ -6,32 +11,37 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
       with:
         fetch-depth: 0
 
-    - uses: actions/setup-dotnet@v4
+    - name: Setup .NET 9 environment
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '9.0.x'
 
-    - uses: actions/setup-node@v4
+    - name: Setup Node.js (for React)
+      uses: actions/setup-node@v4
       with:
         node-version: '20'
 
-    - name: Build & Publish
+    - name: Restore, Build, and Publish
       run: |
         dotnet restore
-        dotnet publish -c Release -o publish
+        dotnet build -c Release --no-restore
+        dotnet publish -c Release -o ./publish --no-build
 
     - name: Zip Publish Folder
-      run: zip -r app-release.zip publish
+      run: |
+        cd ./publish
+        zip -r ../app-release.zip .
 
-    - name: Generate New Release Tag
+    - name: Generate Automatic Release Tag
       run: |
         echo "DATE_STAMP=$(date +'%Y%m%d')" >> $GITHUB_ENV
-        echo "TIME_STAMP=$(date +'%H%M%S')" >> $GITHUB_ENV
         echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
-        echo "RELEASE_TAG=release-${DATE_STAMP}-${TIME_STAMP}-${SHORT_SHA}" >> $GITHUB_ENV
+        echo "RELEASE_TAG=release-${DATE_STAMP}-${SHORT_SHA}" >> $GITHUB_ENV
 
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v2
@@ -39,7 +49,3 @@ jobs:
         tag_name: ${{ env.RELEASE_TAG }}
         name: Release ${{ env.RELEASE_TAG }}
         files: app-release.zip
-
-on:
-  workflow_dispatch:
-
