@@ -31,7 +31,14 @@ jobs:
         echo "DATE_STAMP=$(date +'%Y%m%d')" >> $GITHUB_ENV
         echo "TIME_STAMP=$(date +'%H%M%S')" >> $GITHUB_ENV
         echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+        echo "RELEASE_TAG=release-${DATE_STAMP}-${TIME_STAMP}-${SHORT_SHA}" >> $GITHUB_ENV
 
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: ${{ env.RELEASE_TAG }}
+        name: Release ${{ env.RELEASE_TAG }}
+        files: app-release.zip
 
 on:
   workflow_dispatch:
