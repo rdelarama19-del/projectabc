@@ -16,7 +16,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup .NET 9 environment
+      - name: Setup .NET 9
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '9.0.x'
@@ -33,7 +33,8 @@ jobs:
           dotnet publish -c Release -o publish --no-build
 
       - name: Zip Publish Folder
-        run: zip -r app-release.zip publish
+        run: |
+          zip -r app-release.zip publish
 
       - name: Generate New Release Tag
         run: |
@@ -42,10 +43,14 @@ jobs:
           echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
           echo "RELEASE_TAG=release-${DATE_STAMP}-${TIME_STAMP}-${SHORT_SHA}" >> $GITHUB_ENV
 
+      - name: Create and Push Git Tag
+        run: |
+          git tag $RELEASE_TAG
+          git push origin $RELEASE_TAG
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ env.RELEASE_TAG }}
           name: Release ${{ env.RELEASE_TAG }}
-          target_commitish: ${{ github.sha }}
           files: app-release.zip
