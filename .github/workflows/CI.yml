@@ -1,4 +1,3 @@
-
 name: CI - Build & Release (.NET 9)
 
 on:
@@ -41,14 +40,15 @@ jobs:
           echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
           echo "RELEASE_TAG=release-${DATE_STAMP}-${TIME_STAMP}-${SHORT_SHA}" >> $GITHUB_ENV
 
-      - name: Create and Push Git Tag
+      - name: Create and Push Git Tag (Safe)
         run: |
-          git tag $RELEASE_TAG
-          git push origin $RELEASE_TAG
+          if git rev-parse "$RELEASE_TAG" >/dev/null 2>&1; then
+            echo "Tag $RELEASE_TAG already exists. Skipping."
+          else
+            git tag "$RELEASE_TAG"
+            git push origin "$RELEASE_TAG"
+          fi
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ env.RELEASE_TAG }}
-          name: Release ${{ env.RELEASE_TAG }}
-          files: app-release.zip
