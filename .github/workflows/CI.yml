@@ -1,3 +1,4 @@
+
 name: CI - Build & Release (.NET 9)
 
 on:
@@ -28,13 +29,10 @@ jobs:
 
       - name: Restore, Build, and Publish
         run: |
-          dotnet restore
-          dotnet build -c Release --no-restore
-          dotnet publish -c Release -o publish --no-build
+          dotnet publish -c Release -o publish
 
       - name: Zip Publish Folder
-        run: |
-          zip -r app-release.zip publish
+        run: zip -r app-release.zip publish
 
       - name: Generate New Release Tag
         run: |
