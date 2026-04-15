@@ -31,7 +31,8 @@ jobs:
           dotnet publish -c Release -o publish
 
       - name: Zip Publish Folder
-        run: zip -r app-release.zip publish
+        run: |
+          zip -r app-release.zip publish
 
       - name: Generate New Release Tag
         run: |
@@ -42,6 +43,7 @@ jobs:
 
       - name: Create and Push Git Tag (Safe)
         run: |
+          set -e
           if git rev-parse "$RELEASE_TAG" >/dev/null 2>&1; then
             echo "Tag $RELEASE_TAG already exists. Skipping."
           else
@@ -55,3 +57,4 @@ jobs:
           tag_name: ${{ env.RELEASE_TAG }}
           name: Release ${{ env.RELEASE_TAG }}
           files: app-release.zip
+``
