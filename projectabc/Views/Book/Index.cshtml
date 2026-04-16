@@ -1,0 +1,90 @@
+﻿@{
+	ViewBag.Title = "Books";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+
+
+	.carousel .card {
+		margin: 10px;
+	}
+
+	.carousel img {
+		height: 350px;
+		object-fit: cover;
+	}
+
+
+
+	.book-cover {
+		height: 280px;
+		object-fit: cover;
+		border: 2px solid #e5e7eb;
+		border-radius: 10px;
+		padding: 6px;
+		background-color: #fff;
+	}
+
+		.book-cover:hover {
+			border-color: #0d6efd; /* Bootstrap primary */
+			transform: scale(1.02);
+		}
+
+
+
+</style>
+
+<h2 class="mb-4">Book Collection</h2>
+
+<div id="bookCarousel" class="carousel slide" data-bs-ride="carousel">
+	<div class="carousel-inner">
+
+		<!-- Slide 1 -->
+		<div class="carousel-item active">
+			<div class="row justify-content-center">
+
+				<div class="col-md-3">
+					<div class="card shadow-sm">
+						<img src="https://m.media-amazon.com/images/I/411jedAeZRL.jpg"
+							 class="card-img-top book-cover" alt="Wrong Box">
+						<div class="card-body">
+							<h5 class="card-title">THE WRONG BOX</h5>
+							<p class="card-text">
+								Author: Robert C. Martin
+							</p>
+							<span class="badge bg-success">Available</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-3">
+					<div class="card shadow-sm">
+						<img src="https://m.media-amazon.com/images/I/917t3Joq2WL.jpg"
+							 class="card-img-top book-cover" alt="Pragmatic Programmer">
+						<div class="card-body">
+							<h5 class="card-title">BRAVE NEW WORLD</h5>
+							<p class="card-text">
+								Author: Andrew Hunt
+							</p>
+							<span class="badge bg-success">Available</span>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+	
+	</div>
+
+	<!-- Controls -->
+	<button class="carousel-control-prev" type="button" data-bs-target="#bookCarousel" data-bs-slide="prev">
+		<span class="carousel-control-prev-icon"></span>
+	</button>
+
+	<button class="carousel-control-next" type="button" data-bs-target="#bookCarousel" data-bs-slide="next">
+		<span class="carousel-control-next-icon"></span>
+	</button>
+</div>
+``
