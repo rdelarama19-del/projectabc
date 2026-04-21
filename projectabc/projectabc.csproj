@@ -6,4 +6,15 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\lib\img\" />
+    <Folder Include="Views\Book\css\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\lib\img\1.jpg" />
+    <None Include="wwwroot\lib\img\2.jpg" />
+    <None Include="wwwroot\lib\img\3.jpg" />
+  </ItemGroup>
+
 </Project>

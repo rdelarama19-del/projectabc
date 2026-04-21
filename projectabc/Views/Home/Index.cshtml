@@ -1,136 +1,54 @@
 ﻿@{
-    ViewBag.Title = "Dashboard";
+    ViewBag.Title = "Home";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2 class="mb-4">Dashboard</h2>
 
-<!-- KPI Cards -->
-<div class="row mb-4">
-    <div class="col-md-3">
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <h6 class="text-muted">Users</h6>
-                <h3>1,245</h3>
+<link href="~/css/home.css" rel="stylesheet" />
+
+<section class="home">
+    <div class="home-container">
+
+        <!-- HERO -->
+        <div class="container">
+            <section class="hero">
+
+                <div class="hero-box">
+                    <h1>
+                        Your Space.<br>
+                        <strong>Your Surface.</strong><br>
+                        Your Story.
+                    </h1>
+                    <a href="#" class="hero-btn">Learn More →</a>
+                </div>
+
+            </section>
+        </div>
+
+        <!-- COLLECTIONS -->
+        <section class="collections">
+            <div class="container">
+                <h2>COLLECTIONS</h2>
+                <p>Where materials shape experience</p>
+
+                <div class="collection-grid">
+                    <img src="~/lib/img/1.jpg" alt="">
+                    <img src="~/lib/img/2.jpg" alt="">
+                    <img src="~/lib/img/3.jpg" alt="">
+                </div>
             </div>
+        </section>
+
+        <h1>Welcome to ABC</h1>
+        <p>
+            Supporting Your Growth, One Entry at a Time
+        </p>
+
+        <div class="home-actions">
+            <a>View Collections</a>
+            <a>Contact Us</a>
         </div>
     </div>
+</section>
 
-    <div class="col-md-3">
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <h6 class="text-muted">Orders</h6>
-                <h3>328</h3>
-            </div>
-        </div>
-    </div>
 
-    <div class="col-md-3">
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <h6 class="text-muted">Revenue</h6>
-                <h3>₱82,400</h3>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-3">
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <h6 class="text-muted">Errors</h6>
-                <h3 class="text-danger">5</h3>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Charts -->
-<div class="row mb-4">
-    <div class="col-md-8">
-        <div class="card shadow-sm">
-            <div class="card-header">Sales Overview</div>
-            <div class="card-body">
-                <canvas id="salesChart"></canvas>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-4">
-        <div class="card shadow-sm">
-            <div class="card-header">User Types</div>
-            <div class="card-body">
-                <canvas id="userChart"></canvas>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Recent Activity Table -->
-<div class="card shadow-sm">
-    <div class="card-header">Recent Orders</div>
-    <div class="card-body table-responsive">
-        <table class="table table-hover">
-            <thead class="table-light">
-                <tr>
-                    <th>#</th>
-                    <th>Customer</th>
-                    <th>Status</th>
-                    <th>Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1001</td>
-                    <td>Juan Dela Cruz</td>
-                    <td>Completed</td>
-                    <td>₱1,200</td>
-                </tr>
-                <tr>
-                    <td>1002</td>
-                    <td>Maria Santos</td>
-                    <td>Pending</td>
-                    <td>₱850</td>
-                </tr>
-                <tr>
-                    <td>1003</td>
-                    <td>Pedro Reyes</td>
-                    <td>Cancelled</td>
-                    <td>₱560</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
-
-@section Scripts {
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <script>
-        // Line Chart
-        new Chart(document.getElementById('salesChart'), {
-            type: 'line',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
-                datasets: [{
-                    label: 'Sales',
-                    data: [12000, 19000, 15000, 22000, 18000],
-                    borderColor: '#0d6efd',
-                    fill: false
-                }]
-            }
-        });
-
-        // Doughnut Chart
-        new Chart(document.getElementById('userChart'), {
-            type: 'doughnut',
-            data: {
-                labels: ['Admin', 'Staff', 'Users'],
-                datasets: [{
-                    data: [5, 12, 120],
-                    backgroundColor: ['#dc3545', '#ffc107', '#198754']
-                }]
-            }
-        });
-    </script>
-}
