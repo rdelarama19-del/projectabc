@@ -1,0 +1,89 @@
+﻿
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.book-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    height: 300px;
+    gap: 20px;
+    margin-top: 150px;
+    font-family: "Ubuntu Mono", monospace;
+}
+
+    /* Card base */
+    .book-container > div {
+        flex: 0 0 120px;
+        border-radius: 0.5rem;
+        transition: all 0.5s ease-in-out;
+        cursor: pointer;
+        box-shadow: 1px 5px 15px #1e0e3e;
+        position: relative;
+        overflow: hidden;
+        aspect-ratio: 2 / 3;
+    }
+
+        /* Background images */
+        .book-container > div:nth-of-type(1) {
+            background: url("/lib/img/b1.jpg") no-repeat center / cover;
+        }
+
+        .book-container > div:nth-of-type(2) {
+            background: url("/lib/img/b2.jpg") no-repeat center / cover;
+        }
+
+        .book-container > div:nth-of-type(3) {
+            background: url("/lib/img/b3.jpg") no-repeat center / cover;
+        }
+
+        .book-container > div:nth-of-type(4) {
+            background: url("/lib/img/b4.jpg") no-repeat center / cover;
+        }
+
+        .book-container > div:nth-of-type(5) {
+            background: url("/lib/img/b5.jpg") no-repeat center / cover;
+        }
+
+    /* Content overlay */
+    .book-container .content {
+        font-size: 1.5rem;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        opacity: 0;
+        flex-direction: column;
+        height: 100%;
+        justify-content: flex-end;
+        background: linear-gradient( 0deg, rgba(2, 2, 46, 0.68) 0%, rgba(255, 255, 255, 0) 100% );
+        transform: translateY(100%);
+        transition: opacity 0.5s ease-in-out, transform 0.5s 0.2s;
+        visibility: hidden;
+    }
+
+        /* Content text */
+        .book-container .content span {
+            display: block;
+            margin-top: 5px;
+            font-size: 1.2rem;
+        }
+
+    /* Hover effects */
+    .book-container > div:hover {
+        flex: 0 0 250px;
+        box-shadow: 1px 3px 15px #7645d8;
+        transform: translateY(-30px);
+    }
+
+        .book-container > div:hover .content {
+            opacity: 1;
+            transform: translateY(0);
+            visibility: visible;
+        }
+
+
