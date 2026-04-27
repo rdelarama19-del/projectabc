@@ -12,10 +12,17 @@
 	<header id="site-header" class="header">
 
 		<div class="logo" href="@Url.Action("Index", "Home")">ABC</div>
+
+		<button class="burger" id="burger" aria-label="Toggle navigation">
+			<span></span>
+			<span></span>
+			<span></span>
+		</button>
+
 		<div class="container">
-			<nav class="nav">
+			<nav class="nav" id="main-nav">
 				<a href="@Url.Action("Index", "Home")">Home</a>
-				<a href ="@Url.Action("Index", "About")">About Us</a>
+				<a href="@Url.Action("Index", "About")">About Us</a>
 				<a>Collections</a>
 
 				<div class="nav-item">
@@ -23,10 +30,8 @@
 					<div class="sub-menu">
 						<a href="@Url.Action("Index", "Book")">List Books</a>
 
-						<!-- Maintenance with sub-submenu -->
 						<div class="sub-item">
 							<a>Maintenance ▸</a>
-
 							<div class="sub-sub-menu">
 								<a>Cleaning</a>
 								<a>Repair</a>
@@ -38,12 +43,12 @@
 					</div>
 				</div>
 
-
 				<a>Contact</a>
 				<a>Download Catalog</a>
 			</nav>
 		</div>
 	</header>
+
 
 
 
@@ -84,6 +89,36 @@
 				});
 			}
 		});
+
+
+		const burger = document.getElementById("burger");
+		const nav = document.getElementById("main-nav");
+
+		// Burger toggle
+		burger.addEventListener("click", () => {
+			burger.classList.toggle("active");
+			nav.classList.toggle("active");
+		});
+
+		// Mobile submenu toggle
+		document.querySelectorAll(".nav-item > a").forEach(item => {
+			item.addEventListener("click", e => {
+				if (window.innerWidth <= 768) {
+					e.preventDefault();
+					item.parentElement.classList.toggle("open");
+				}
+			});
+		});
+
+		document.querySelectorAll(".sub-item > a").forEach(item => {
+			item.addEventListener("click", e => {
+				if (window.innerWidth <= 768) {
+					e.preventDefault();
+					item.parentElement.classList.toggle("open");
+				}
+			});
+		});
+
 	</script>
 
 
